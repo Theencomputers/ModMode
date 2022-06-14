@@ -1,0 +1,13 @@
+name: ModMode
+main: me.theencomputers.modmode.Main
+version: 0.0.1
+commands:
+   modmode:
+      permission: modmode.staff
+      description: Enable and disable Mod Mode
+      usage: /modmode <on:off:toggle:list> [player]
+   vanish:
+      aliases: [v]
+      permission: modmode.staff
+      description: Enable and disable Mod Mode
+      usage: /modmode <on:off:toggle:list> [player]
