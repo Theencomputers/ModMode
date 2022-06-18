@@ -3,6 +3,11 @@
 	Title: Main.java
 */
 
+/*
+    Author: Theencomputers
+    Title: Main.java
+*/
+
 package me.theencomputers.modmode;
 
 import me.theencomputers.modmode.Commands.ModMode;
@@ -20,40 +25,37 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.comphenix.protocol.ProtocolManager;
-
 
 public class Main extends JavaPlugin{
-	static Main plugin;
-	public ProtocolManager pm;
+    static Main plugin;
 
-	//Register all events
-	private void registerAllEvents(){
-		Bukkit.getServer().getPluginManager().registerEvents((Listener) new VanishEvents(), this);
-		Bukkit.getServer().getPluginManager().registerEvents((Listener) new ModModeItems(plugin), this);
-		Bukkit.getServer().getPluginManager().registerEvents((Listener) new UnexposedListener(), this);
-		Bukkit.getServer().getPluginManager().registerEvents((Listener) new OreListener(), this);
-		Bukkit.getServer().getPluginManager().registerEvents((Listener) new PvPListener(), this);
-	} 
-	//Register all commands
-	private void registerAllCommands(){
-		getCommand("modmode").setExecutor(new ModMode());
+    //Register all events
+    private void registerAllEvents(){
+        Bukkit.getServer().getPluginManager().registerEvents((Listener) new VanishEvents(), this);
+        Bukkit.getServer().getPluginManager().registerEvents((Listener) new ModModeItems(plugin), this);
+        Bukkit.getServer().getPluginManager().registerEvents((Listener) new UnexposedListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents((Listener) new OreListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents((Listener) new PvPListener(), this);
+    } 
+    //Register all commands
+    private void registerAllCommands(){
+        getCommand("modmode").setExecutor(new ModMode());
         getCommand("vanish").setExecutor(new Vanish());
-		getCommand("tppos").setExecutor(new Tppos());
-		getCommand("spec").setExecutor(new Spec());
-	} 
-	//Main Instance
-	public static Main getMainInstance(){
+        getCommand("tppos").setExecutor(new Tppos());
+        getCommand("spec").setExecutor(new Spec());
+    } 
+    //Main Instance
+    public static Main getMainInstance(){
         return plugin;
     }
 
-	//Executed when plugin enables
-	public void onEnable(){
-		plugin = this;
-		Logger.getLogger("Minecraft").info("Mod Mode has been Enabled");
-		registerAllEvents();
-		registerAllCommands();
-	}
+    //Executed when plugin enables
+    public void onEnable(){
+        plugin = this;
+        Logger.getLogger("Minecraft").info("Mod Mode has been Enabled");
+        registerAllEvents();
+        registerAllCommands();
+    }
 
 
 }
