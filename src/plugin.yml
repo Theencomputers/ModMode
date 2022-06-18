@@ -1,6 +1,6 @@
 name: ModMode
 main: me.theencomputers.modmode.Main
-version: 0.0.1
+version: 1.0.0
 commands:
    modmode:
       permission: modmode.staff
@@ -9,5 +9,11 @@ commands:
    vanish:
       aliases: [v]
       permission: modmode.staff
-      description: Enable and disable Mod Mode
-      usage: /modmode <on:off:toggle:list> [player]
+      description: Puts you into vanish
+      usage: /vanish
+   tppos:
+      description: Teleports you to an inputed location
+      usage: /tppos <world> <x> <y> <z>
+   spec:
+      description: Teleports you to a player
+      usage: /spec <player>

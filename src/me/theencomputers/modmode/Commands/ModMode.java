@@ -1,11 +1,11 @@
+/*
+	Author: Theencomputers
+	Title: ModMode.java
+*/
 package me.theencomputers.modmode.Commands;
 
 import me.theencomputers.modmode.ModModeManager;
-import me.theencomputers.modmode.Commands.Vanish;
-import net.minecraft.util.com.google.common.collect.FluentIterable;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,19 +19,27 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ModMode implements CommandExecutor {
 
+    //put in modmode method takes argument of player
     public void putInModMode(Player modPlayer){
         Vanish v = new Vanish();
         if(!ModModeManager.inModMode.contains(modPlayer)){
-            ModModeManager.inModMode.add(modPlayer);
+            ModModeManager.inModMode.add(modPlayer);        //add to list
         }
-        v.putInVanish(modPlayer);
+
+        v.putInVanish(modPlayer);  //use vanish method
+        //set spectator settings 
         modPlayer.setGameMode(GameMode.ADVENTURE);
         modPlayer.setAllowFlight(true);
         modPlayer.setFlying(true);
         modPlayer.setFlySpeed(0.2f);
         modPlayer.setWalkSpeed(0.2f);
 
+        //set spectator inventory
         modPlayer.getInventory().clear();
+        modPlayer.getInventory().setBoots(null);
+        modPlayer.getInventory().setChestplate(null);
+        modPlayer.getInventory().setLeggings(null);
+        modPlayer.getInventory().setHelmet(null);
 
         ItemStack flySpeed = new ItemStack(Material.FEATHER);
         ItemStack invSee = new ItemStack(Material.BOOK_AND_QUILL);
@@ -55,6 +63,7 @@ public class ModMode implements CommandExecutor {
         modPlayer.getInventory().setItem(4, invSee);
         modPlayer.getInventory().setItem(6, randomTP);
 
+        //set other settings
         modPlayer.setHealth(20f);
         modPlayer.setExp(0f);
         modPlayer.setFoodLevel(20);
@@ -63,11 +72,13 @@ public class ModMode implements CommandExecutor {
     
     }
 
+    //remove from mod mode method takes player as argument
     public void removeFromModMode(Player modPlayer){
         Vanish v = new Vanish();
         if(ModModeManager.inModMode.contains(modPlayer)){
-            ModModeManager.inModMode.remove(modPlayer);
+            ModModeManager.inModMode.remove(modPlayer);     //remove from list
         }
+        //set player settings
         v.removeFromVanish(modPlayer);
         modPlayer.setGameMode(GameMode.SURVIVAL);
         modPlayer.setAllowFlight(false);
@@ -75,8 +86,8 @@ public class ModMode implements CommandExecutor {
         modPlayer.setFlySpeed(0.2f);
         modPlayer.setWalkSpeed(0.2f);
         modPlayer.getInventory().clear();
-        modPlayer.sendMessage("§aModMode Features have been disabled");
-        modPlayer.performCommand("spawn");
+        modPlayer.sendMessage("§aModMode Features have been disabled\n Executing /spawn...");
+        modPlayer.performCommand("spawn");      //goto spawn
     }
 
 	@Override
@@ -90,10 +101,10 @@ public class ModMode implements CommandExecutor {
                         }
                         else if(args.length == 1){
                             if(args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("enable")){
-                                putInModMode(modPlayer);
+                                putInModMode(modPlayer);        //use put in mod mode method
                             }
                             else if(args[0].equalsIgnoreCase("off") || args[0].equalsIgnoreCase("disable")){
-                                removeFromModMode(modPlayer);
+                                removeFromModMode(modPlayer);   //use remove from mod mode method
                             }
                             else if(args[0].equalsIgnoreCase("toggle")){
                                 if(ModModeManager.inModMode.contains(modPlayer)){
@@ -104,9 +115,11 @@ public class ModMode implements CommandExecutor {
                                 }
                             }
                             else if(args[0].equalsIgnoreCase("list")){
-                                String mods = "vanish: §a";
-                                for(int i = 0; i > ModModeManager.inVanishList.size(); i++){
-                                    mods = mods + ModModeManager.inVanishList.get(i);
+                                String mods = "vanish:§a";
+                                for(Player iPlayer : Bukkit.getOnlinePlayers()){        //construct mod list
+                                    if(ModModeManager.inVanishList.contains(iPlayer)){
+                                        mods = mods + " " + iPlayer.getName(); 
+                                    }
                                 }
                                 modPlayer.sendMessage("§eThe following players are in " + mods);
                             }
@@ -134,7 +147,7 @@ public class ModMode implements CommandExecutor {
                                 if(args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off") ||
                                 args[0].equalsIgnoreCase("toggle") || args[0].equalsIgnoreCase("enable") || 
                                 args[0].equalsIgnoreCase("disable")){
-                                    modPlayer.sendMessage("§cError cannot find player named \"" + args[1] + "\"");
+                                modPlayer.sendMessage("§cError cannot find player named \"" + args[1] + "\"");      //no player
                                 }
                                 else{
                                     modPlayer.sendMessage("§cError usage: /modmode <on:off:toggle:list> [player]");
